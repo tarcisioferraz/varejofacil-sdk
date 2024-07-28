@@ -40,7 +40,10 @@ class ProdutoService
                         ->setLargura($item->largura)
                         ->setAltura($item->altura)
                         ->setComprimento($item->comprimento)
-                        ->setSecaoId($item->secaoId);
+                        ->setSecaoId($item->secaoId)
+                        ->setGrupoId($item->grupoId)
+                        ->setSubgrupoId($item->subgrupoId);
+
 
                     if (isset($item->imagem)) {
                         $urlImagem = $this->sdk->getUrl() . 'arquivo/view?uuid=' . $item->imagem;
@@ -76,7 +79,9 @@ class ProdutoService
             ->setLargura($produtoExterno->largura)
             ->setAltura($produtoExterno->altura)
             ->setComprimento($produtoExterno->comprimento)
-            ->setSecaoId($produtoExterno->secaoId);
+            ->setSecaoId($produtoExterno->secaoId)
+            ->setGrupoId($produtoExterno->grupoId)
+            ->setSubgrupoId($produtoExterno->subgrupoId);
 
         if (isset($produtoExterno->imagem)) {
             $urlImagem = $this->sdk->getUrl() . 'arquivo/view?uuid=' . $produtoExterno->imagem;
