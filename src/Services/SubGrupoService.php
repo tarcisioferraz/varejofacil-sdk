@@ -6,7 +6,7 @@ use \VarejoFacil\VarejoFacilSDK;
 use \VarejoFacil\Models\SUbGrupo;
 use \VarejoFacil\Response;
 
-class GrupoService
+class SubGrupoService
 {
     private $sdk;
     private $waitTime = 30;
