@@ -3,7 +3,7 @@
 namespace VarejoFacil\Services;
 
 use \VarejoFacil\VarejoFacilSDK;
-use \VarejoFacil\Models\SUbGrupo;
+use \VarejoFacil\Models\SubGrupo;
 use \VarejoFacil\Response;
 
 class SubGrupoService
