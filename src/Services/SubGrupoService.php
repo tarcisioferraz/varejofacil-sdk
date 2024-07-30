@@ -35,7 +35,7 @@ class SubGrupoService
 
             if (isset($resposta->items)) {
                 foreach ($resposta->items as $item) {
-                    $subgrupo = new SubGrupo($item->id, $item->nome, $item->secaoId, $item->grupoId);
+                    $subgrupo = new SubGrupo($item->id, $item->descricao, $item->secaoId, $item->grupoId);
                     $resp->addItem($subgrupo);
                 }
             }

@@ -35,7 +35,7 @@ class SecaoService
 
             if (isset($resposta->items)) {
                 foreach ($resposta->items as $item) {
-                    $secao = new Secao($item->id, $item->nome);
+                    $secao = new Secao($item->id, $item->descricao);
                     $resp->addItem($secao);
                 }
             }
