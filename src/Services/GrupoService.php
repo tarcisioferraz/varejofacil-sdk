@@ -35,7 +35,7 @@ class GrupoService
 
             if (isset($resposta->items)) {
                 foreach ($resposta->items as $item) {
-                    $grupo = new Grupo($item->id, $item->nome, $item->secaoId);
+                    $grupo = new Grupo($item->id, $item->descricao, $item->secaoId);
                     $resp->addItem($grupo);
                 }
             }
