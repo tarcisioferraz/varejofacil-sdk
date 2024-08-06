@@ -8,7 +8,7 @@ use \VarejoFacil\Response;
 use \VarejoFacil\Exceptions\VarejoFacilSDKException;
 use VarejoFacil\Models\ItemVenda;
 
-class ProdutoService
+class CupomFiscalService
 {
     private $resource = '/v1/venda/cupons-fiscais';
     private $sdk;
