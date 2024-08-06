@@ -52,7 +52,7 @@ class CupomFiscalService
                     foreach ($item->itensVenda as $itemCupom) {
                         $itemVenda = new ItemVenda();
 
-                        $itemVenda->SetId($itemCupom->Id);
+                        $itemVenda->SetId($itemCupom->id);
                         $itemVenda->SetProdutoId($itemCupom->produtoId);
                         $itemVenda->SetFuncionarioVendedorId($itemCupom->funcionarioVendedorId);
                         $itemVenda->SetQuantidadeVenda($itemCupom->quantidadeVenda);
@@ -62,10 +62,19 @@ class CupomFiscalService
                         $itemVenda->SetValorTotal($itemCupom->valorTotal);
                         $itemVenda->SetPrecoVenda($itemCupom->precoVenda);
                         $itemVenda->SetValorServico($itemCupom->valorServico);
-                        $itemVenda->SetFatorBonificacao($itemCupom->fatorBonificacao);
-                        $itemVenda->SetPrecoCusto($itemCupom->precoCusto);
-                        $itemVenda->SetPrecoCustoMedio($itemCupom->precoCustoMedio);
-                        $itemVenda->SetPrecoCustoFiscal($itemCupom->precoCustoFiscal);
+
+                        if (isset($itemCupom->fatorBonificacao))
+                            $itemVenda->SetFatorBonificacao($itemCupom->fatorBonificacao);
+
+                        if (isset($itemCupom->precoCusto))
+                            $itemVenda->SetPrecoCusto($itemCupom->precoCusto);
+
+                        if (isset($itemCupom->precoCustoMedio))
+                            $itemVenda->SetPrecoCustoMedio($itemCupom->precoCustoMedio);
+
+                        if (isset($itemCupom->precoCustoFiscal))
+                            $itemVenda->SetPrecoCustoFiscal($itemCupom->precoCustoFiscal);
+
                         $itemVenda->SetValorDoDescontoMegaCaixa($itemCupom->valorDoDescontoMegaCaixa);
                         $itemVenda->SetParticipouPromocaoDesconto($itemCupom->participouPromocaoDesconto);
                         $itemVenda->SetTipoBonificacao($itemCupom->tipoBonificacao);
