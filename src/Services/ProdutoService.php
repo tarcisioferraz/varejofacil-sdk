@@ -94,6 +94,41 @@ class ProdutoService
         return $resp;
     }
 
+    public function update(Produto $produto)
+    {
+        $produtoId = $produto->getId();
+
+        if (is_null($produto->getId())) {
+            throw new VarejoFacilSDKException('Id do produto deve ser informado');
+        }
+
+        if (is_null($produto->getSecaoId())) {
+            throw new VarejoFacilSDKException('Produto "' . $produtoId . '" com Secao inválida');
+        }
+
+        if (is_null($produto->getGrupoId()) && !is_null($produto->getSubgrupoId())) {
+            throw new VarejoFacilSDKException('Produto "' . $produtoId . '" com grupo inválido');
+        }
+
+        $resource = '/v1/produto/produtos/' . $produtoId;
+
+        $dados = [
+            'id' => $produto->getId(),
+            'secaoId' => $produto->getSecaoId()
+        ];
+
+        if (!is_null($produto->getGrupoId())) {
+            $dados['grupoId'] = $produto->getGrupoId();
+
+            if (!is_null($produto->getSubgrupoId())) {
+                $dados['subgrupoId'] = $produto->getSubgrupoId();
+            }
+        }
+
+        $resposta = $this->sdk->put($resource, $dados);
+
+        return $resposta;
+    }
 
     public function count(String $filter = ''): int
     {
