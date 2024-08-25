@@ -119,8 +119,6 @@ class VarejoFacilSDK
             return true;
         }
 
-        var_dump($resp);
-
         return false;
     }
 

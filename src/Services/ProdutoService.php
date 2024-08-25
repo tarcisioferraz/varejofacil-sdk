@@ -112,10 +112,10 @@ class ProdutoService
 
         $resource = '/v1/produto/produtos/' . $produtoId;
 
-        $dados = [
-            'id' => $produto->getId(),
-            'secaoId' => $produto->getSecaoId()
-        ];
+        // Recuperando dados previamente cadastrados no vf
+        $dados = (array) $this->sdk->get($resource, []);
+
+        $dados['secaoId'] = $produto->getSecaoId();
 
         if (!is_null($produto->getGrupoId())) {
             $dados['grupoId'] = $produto->getGrupoId();
@@ -135,7 +135,6 @@ class ProdutoService
         if ($filter) {
             $filter .= '&q=' . $filter;
         }
-
 
         $resposta = $this->sdk->get($this->resource . '?start=0' . $filter . '&count=1', []);
         return $resposta->total;
