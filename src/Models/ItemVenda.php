@@ -357,7 +357,7 @@ class ItemVenda extends Entidade
      *
      * @return  self
      */
-    public function setTipoBonificacao(Float $tipoBonificacao)
+    public function setTipoBonificacao(String $tipoBonificacao)
     {
         $this->tipoBonificacao = $tipoBonificacao;
 
