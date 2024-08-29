@@ -68,10 +68,10 @@ class PrecoService
                         ->setPrecoOferta1($item->precoOferta1)
                         ->setPrecoVenda2($item->precoVenda2)
                         ->setPrecoOferta2($item->precoOferta2)
-                        ->setQuantidadeMinimaPreco2($quantidadeMinimaPreco2)
+                        ->setQuantidadeMinimaPreco2((float)$quantidadeMinimaPreco2)
                         ->setPrecoVenda3($item->precoVenda3)
                         ->setPrecoOferta3($item->precoOferta3)
-                        ->setQuantidadeMinimaPreco3($quantidadeMinimaPreco3);
+                        ->setQuantidadeMinimaPreco3((float)$quantidadeMinimaPreco3);
 
                     $resp->addItem($preco);
                 }

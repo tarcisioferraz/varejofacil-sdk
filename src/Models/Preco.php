@@ -78,7 +78,7 @@ class Preco extends Entidade
         return $this;
     }
 
-    public function getQuantidadeMinimaPreco2(): Float
+    public function getQuantidadeMinimaPreco2(): ?Float
     {
         return $this->quantidadeMinimaPreco2;
     }
@@ -111,7 +111,7 @@ class Preco extends Entidade
         return $this;
     }
 
-    public function getQuantidadeMinimaPreco3(): Float
+    public function getQuantidadeMinimaPreco3(): ?Float
     {
         return $this->quantidadeMinimaPreco3;
     }
