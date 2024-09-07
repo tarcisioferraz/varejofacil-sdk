@@ -102,10 +102,6 @@ class ProdutoService
             throw new VarejoFacilSDKException('Id do produto deve ser informado');
         }
 
-        if (is_null($produto->getSecaoId())) {
-            throw new VarejoFacilSDKException('Produto "' . $produtoId . '" com Secao inválida');
-        }
-
         if (is_null($produto->getGrupoId()) && !is_null($produto->getSubgrupoId())) {
             throw new VarejoFacilSDKException('Produto "' . $produtoId . '" com grupo inválido');
         }
@@ -116,6 +112,10 @@ class ProdutoService
         $dados = (array) $this->sdk->get($resource, []);
 
         $dados['secaoId'] = $produto->getSecaoId();
+
+        if (!is_null($produto->getDescricao())) {
+            $dados['descricao'] = $produto->getDescricao();
+        }
 
         if (!is_null($produto->getGrupoId())) {
             $dados['grupoId'] = $produto->getGrupoId();
