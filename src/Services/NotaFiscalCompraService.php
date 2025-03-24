@@ -134,8 +134,8 @@ class NotaFiscalCompraService
                             ->setCustoReposicao($itemNota->custoReposicao)
                             ->setOutrasDespesasCompoeBaseDeCalculoIcms($itemNota->outrasDespesasCompoeBaseDeCalculoIcms)
                             ->setNcm($itemNota->ncm)
-                            ->setCest($itemNota->cest)
-                            ->setModalidadeDaBaseDeCalculo($itemNota->modalidadeDaBaseDeCalculo)
+
+
                             ->setPercentualICMSDeCompra($itemNota->percentualICMSDeCompra)
                             ->setValorDoICMS($itemNota->valorDoICMS)
                             ->setValorDoICMSNoSimples($itemNota->valorDoICMSNoSimples)
@@ -162,6 +162,12 @@ class NotaFiscalCompraService
                                 ->setTipoDeEntradaIPI($itemNota->tipoDeEntradaIPI)
                                 ->setValorDoIPI($itemNota->valorDoIPI);
                         }
+
+                        if (isset($itemNota->cest))
+                            $itemCompra->setCest($itemNota->cest);
+
+                        if (isset($itemNota->modalidadeDaBaseDeCalculo))
+                            $itemCompra->setModalidadeDaBaseDeCalculo($itemNota->modalidadeDaBaseDeCalculo);
 
                         if (isset($itemNota->cfopId))
                             $itemCompra->setCfopId($itemNota->cfopId);
