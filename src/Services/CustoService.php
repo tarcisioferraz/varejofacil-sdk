@@ -22,9 +22,9 @@ class CustoService
         $custos = [];
         if ($resposta) {
             foreach ($resposta as $item) {
-                $custo = new Custo($item->id, $item->produtoId, $item->lojaId, isset($item->custoReposicao) ? $item->custoReposicao : 0.00);
-                $custo->setCustoMedio($item->custoMedio)
-                    ->setCustoFiscal(isset($item->custoFiscal) ? $item->custoFiscal : 0.00);
+                $custo = new Custo($item->id, $item->produtoId, $item->lojaId, isset($item->custoProduto) ? $item->custoProduto : 0.00);
+                $custo->setCustoMedio(isset($item->precoMedioDeReposicao) ? $item->precoMedioDeReposicao : $item->precoMedioDeReposicao)
+                    ->setCustoFiscal(isset($item->precoFiscalDeReposicao) ? $item->precoFiscalDeReposicao : 0.00);
 
                 if (isset($item->idExterno)) {
                     $custo->setIdExterno($item->idExterno);
@@ -58,9 +58,9 @@ class CustoService
             if (isset($resposta->items)) {
                 foreach ($resposta->items as $item) {
 
-                    $custo = new Custo($item->id, $item->produtoId, $item->lojaId, isset($item->custoReposicao) ? $item->custoReposicao : 0.00);
-                    $custo->setCustoMedio($item->custoMedio)
-                        ->setCustoFiscal(isset($item->custoFiscal) ? $item->custoFiscal : 0.00);
+                    $custo = new Custo($item->id, $item->produtoId, $item->lojaId, isset($item->custoProduto) ? $item->custoProduto : 0.00);
+                    $custo->setCustoMedio(isset($item->precoMedioDeReposicao) ? $item->precoMedioDeReposicao : $item->precoMedioDeReposicao)
+                        ->setCustoFiscal(isset($item->precoFiscalDeReposicao) ? $item->precoFiscalDeReposicao : 0.00);
 
                     if (isset($item->idExterno)) {
                         $custo->setIdExterno($item->idExterno);
