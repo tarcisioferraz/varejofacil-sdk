@@ -15,95 +15,103 @@ class CustoService
         $this->sdk = $sdk;
     }
 
-    public function listByProductId(Int $produtoId, array $filter = [])
+    public function listByProductId(int $produtoId, array $filter = []): array
     {
         $resource = '/v1/produto/produtos/' . $produtoId . '/custos';
-        $resposta = $this->sdk->get($resource, []);
+        $resposta = $this->sdk->get($resource, $filter);
         $custos = [];
-        if ($resposta) {
-            foreach ($resposta as $item) {
-                $custo = new Custo($item->id, $item->produtoId, $item->lojaId, isset($item->custoProduto) ? $item->custoProduto : 0.00);
-                $custo->setCustoMedio(isset($item->precoMedioDeReposicao) ? $item->precoMedioDeReposicao : $item->precoMedioDeReposicao)
-                    ->setCustoFiscal(isset($item->precoFiscalDeReposicao) ? $item->precoFiscalDeReposicao : 0.00);
 
-                if (isset($item->idExterno)) {
-                    $custo->setIdExterno($item->idExterno);
-                }
+        if (!$resposta) {
+            return $custos;
+        }
 
-                array_push($custos, $custo);
+        foreach ($resposta as $item) {
+            $custo = new Custo(
+                $item->id,
+                $item->produtoId,
+                $item->lojaId,
+                $item->custoReposicao ?? 0.00
+            );
+
+            $custo->setCustoMedio($item->custoMedio ?? 0.00)
+                ->setCustoFiscal($item->custoFiscal ?? 0.00);
+
+            if (isset($item->idExterno)) {
+                $custo->setIdExterno($item->idExterno);
             }
+
+            $custos[] = $custo;
         }
 
         return $custos;
     }
 
-    public function list(String $filter = '')
+    public function list(string $filter = ''): Response
     {
-
-        if ($filter) {
-            $filter .= '&q=' . $filter;
-        }
-
         $resource = '/v1/produto/custos';
-
         $resp = new Response(0, 500, 0);
 
+        $params = [
+            'count' => $resp->getCount(),
+        ];
+
+        if ($filter) {
+            $params['q'] = $filter;
+        }
+
         do {
-            $resposta = $this->sdk->get($resource . '?start=' . $resp->getStart() . $filter . '&count=' . $resp->getCount(), []);
+            $params['start'] = $resp->getStart();
+            $resposta = $this->sdk->get($resource, $params);
+
+            if (!$resposta || !isset($resposta->items)) {
+                break;
+            }
 
             $resp->setTotal($resposta->total)
                 ->setCount($resposta->count)
                 ->moveStart($resposta->count);
 
-            if (isset($resposta->items)) {
-                foreach ($resposta->items as $item) {
+            foreach ($resposta->items as $item) {
+                $custo = new Custo($item->id, $item->produtoId, $item->lojaId, $item->custoProduto ?? 0.00);
+                $custo->setCustoMedio($item->precoMedioDeReposicao ?? 0.00)
+                    ->setCustoFiscal($item->precoFiscalDeReposicao ?? 0.00);
 
-                    $custo = new Custo($item->id, $item->produtoId, $item->lojaId, isset($item->custoProduto) ? $item->custoProduto : 0.00);
-                    $custo->setCustoMedio(isset($item->precoMedioDeReposicao) ? $item->precoMedioDeReposicao : $item->precoMedioDeReposicao)
-                        ->setCustoFiscal(isset($item->precoFiscalDeReposicao) ? $item->precoFiscalDeReposicao : 0.00);
-
-                    if (isset($item->idExterno)) {
-                        $custo->setIdExterno($item->idExterno);
-                    }
-
-                    $resp->addItem($custo);
+                if (isset($item->idExterno)) {
+                    $custo->setIdExterno($item->idExterno);
                 }
+
+                $resp->addItem($custo);
             }
         } while ($resp->getStart() < $resp->getTotal());
-
 
         return $resp;
     }
 
     public function atualizar(Custo $custo)
     {
-        $id = $custo->getId();
-        $resource = '/v1/produto/custos/' . $id;
+        $resource = '/v1/produto/custos/' . $custo->getId();
 
         $custoArray = [
-            'id' => $custo->getId(),
-            //'idExterno' => !empty($custo->getIdExterno()) && $custo->getIdExterno() != 0 ? $custo->getIdExterno() : '',
-            'lojaId' => $custo->getLojaId(),
-            'produtoId' => $custo->getProdutoId(),
+            'id'             => $custo->getId(),
+            'lojaId'         => $custo->getLojaId(),
+            'produtoId'      => $custo->getProdutoId(),
             'custoReposicao' => $custo->getCustoReposicao(),
-            'custoFiscal' => $custo->getCustoFiscal(),
-            'custoMedio' => $custo->getCustoMedio()
+            'custoFiscal'    => $custo->getCustoFiscal(),
+            'custoMedio'     => $custo->getCustoMedio(),
         ];
 
+        $idExterno = $custo->getIdExterno();
+        if (!empty($idExterno)) {
+            $custoArray['idExterno'] = $idExterno;
+        }
 
-        $resposta = $this->sdk->put($resource, $custoArray);
-
-        return $resposta;
+        return $this->sdk->put($resource, $custoArray);
     }
-
 
     public function delete(Custo $custo)
     {
-        $id = $custo->getId();
-        $resource = '/v1/produto/custos/' . $id;
+        $resource = '/v1/produto/custos/' . $custo->getId();
 
-        $resposta = $this->sdk->delete($resource);
-
-        return $resposta;
+        return $this->sdk->delete($resource);
     }
 }
